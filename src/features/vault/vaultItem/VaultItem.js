@@ -19,8 +19,8 @@ const VaultItem = () => {
                     </div>
                 </div>
                 <div className={classes.cardActions}>
-                    <LinkButton />
-                    <LinkButton />
+                    <LinkButton href="#" text="Website" />
+                    <LinkButton href="#" text="Website" />
                 </div>
             </div>
             <div className={classes.cardContent}>

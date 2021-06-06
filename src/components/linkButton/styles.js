@@ -6,7 +6,8 @@ const styles = (theme) => ({
         alignItems: 'center',
         padding: '3px 15px 4px',
         background: '#232743',
-        borderRadius: '20px'
+        borderRadius: '20px',
+        textDecoration: 'none'
     },
     text: {
         fontFamily: 'Proxima Nova',
@@ -16,10 +17,11 @@ const styles = (theme) => ({
         lineHeight: '24px',
         textAlign: 'center',
         letterSpacing: '0.1px',
-        color: '#6B7199'
-    },
-    icon: {
-        color: '#6B7199'
+        color: '#6B7199',
+        flex: 'none',
+        order: 0,
+        flexGrow: 0,
+        margin: '0px 10px'
     }
 });
 
