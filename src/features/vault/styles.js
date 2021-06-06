@@ -13,7 +13,7 @@ const styles = (theme) => ({
         '& .MuiAvatar-root': {
             width: 54,
             height: 54,
-        }
+        },
     },
     btnGoBack: {
         fontSize: '14px',
@@ -112,11 +112,11 @@ const styles = (theme) => ({
             '&:hover': {
                 background: 'none',
             },
-        }
+        },
     },
     selected: {
         color: '#ffffff !important',
-        borderBottom: 'solid 3px #3F466D'
+        borderBottom: 'solid 3px #3F466D',
     },
     balanceText: {
         fontSize: '14px',
@@ -149,9 +149,9 @@ const styles = (theme) => ({
             '&:hover': {
                 color: '#ffffff',
                 backgroundColor: '#3F466D',
-                transition: 'color 0.1s'
-            }
-        }
+                transition: 'color 0.1s',
+            },
+        },
     },
     inputContainer: {
         paddingTop: '10px',
@@ -166,7 +166,7 @@ const styles = (theme) => ({
                 padding: '10px 5px 8px 40px',
                 fontSize: '21px',
                 fontWeight: 600,
-            }
+            },
         },
         '& .MuiTextField-root': {
             backgroundColor: '#14182B',
@@ -187,7 +187,7 @@ const styles = (theme) => ({
             top: '6px',
             right: '5px',
             minWidth: 0,
-        }
+        },
     },
     inputLogo: {
         position: 'absolute',
@@ -196,7 +196,7 @@ const styles = (theme) => ({
         '& img': {
             height: 20,
             width: 20,
-        }
+        },
     },
     feeContainer: {
         backgroundColor: '#313759',
@@ -233,7 +233,7 @@ const styles = (theme) => ({
         '& .MuiDivider-root': {
             margin: '20px 0',
             color: '#8585A6',
-        }
+        },
     },
     btnDeposit: {
         fontSize: '21px',
@@ -244,8 +244,8 @@ const styles = (theme) => ({
         backgroundColor: '#54995C',
         borderRadius: '40px',
         '&:hover': {
-            backgroundColor: '#389D44'
-        }
+            backgroundColor: '#389D44',
+        },
     },
     btnPurchaseDeposit: {
         fontSize: '21px',
@@ -258,7 +258,7 @@ const styles = (theme) => ({
         '&:disabled': {
             backgroundColor: '#434864',
             border: 'solid 2px #434864',
-        }
+        },
     },
     boostContainer: {
         backgroundColor: '#313759',
@@ -267,13 +267,13 @@ const styles = (theme) => ({
             fontSize: '24px',
             fontWeight: 600,
             textTransform: 'uppercase',
-            color: '#E88225'
+            color: '#E88225',
         },
         '& .MuiTypography-h2': {
             fontSize: '24px',
             fontWeight: 600,
             textTransform: 'uppercase',
-            color: '#ffffff'
+            color: '#ffffff',
         },
         '& .MuiTypography-body1': {
             fontSize: '14px',
@@ -288,8 +288,8 @@ const styles = (theme) => ({
         '& .MuiIconButton-root': {
             margin: '0 0 0 5px',
             padding: 0,
-        }
-    }
+        },
+    },
 });
 
 export default styles;
