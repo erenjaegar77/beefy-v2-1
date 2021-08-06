@@ -20,7 +20,6 @@ const Portfolio = () => {
   const [userVaults, setUserVaults] = useState([]);
   const [globalStats, setGlobalStats] = useState({
     deposited: BigNumber(0),
-    totalYield: BigNumber(0),
     daily: BigNumber(0),
     monthly: BigNumber(0),
   });
@@ -56,7 +55,6 @@ const Portfolio = () => {
   useEffect(() => {
     let newGlobalStats = {
       deposited: BigNumber(0),
-      totalYield: BigNumber(0),
       daily: BigNumber(0),
       monthly: BigNumber(0),
     };
@@ -114,12 +112,6 @@ const Portfolio = () => {
                 <BlurredText value={`$${globalStats.deposited.toFixed(2)}`} />
               </Typography>
               <Typography className={classes.body1}>{t('Portfolio-Deposited')}</Typography>
-            </Box>
-            <Box className={classes.stat}>
-              <Typography className={classes.h2}>
-                <BlurredText value={'$0'} />
-              </Typography>
-              <Typography className={classes.body1}>{t('Portfolio-YieldTot')}</Typography>
             </Box>
             <Box className={classes.stat}>
               <Typography className={classes.h2}>
