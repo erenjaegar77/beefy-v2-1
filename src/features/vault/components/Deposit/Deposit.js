@@ -1,6 +1,16 @@
-import { Box, Button, InputBase, makeStyles, Paper, Typography } from '@material-ui/core';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  Box,
+  Button,
+  InputBase,
+  makeStyles,
+  Paper,
+  Typography,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@material-ui/core';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -34,14 +44,14 @@ const Deposit = ({
   }));
   const t = useTranslation().t;
 
-  const [state, setState] = React.useState({ balance: 0, allowance: 0 });
-  const [steps, setSteps] = React.useState({
+  const [state, setState] = useState({ balance: 0, allowance: 0 });
+  const [steps, setSteps] = useState({
     modal: false,
     currentStep: -1,
     items: [],
     finished: false,
   });
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleInput = val => {
     const value =
@@ -110,7 +120,7 @@ const Deposit = ({
     setSteps({ modal: false, currentStep: -1, items: [], finished: false });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     let amount = 0;
     let approved = 0;
     if (wallet.address && !isEmpty(balance.tokens[item.token])) {
@@ -123,11 +133,11 @@ const Deposit = ({
     setState({ balance: amount, allowance: approved });
   }, [wallet.address, item, balance]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsLoading(balance.isBalancesLoading);
   }, [balance.isBalancesLoading]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const index = steps.currentStep;
     if (!isEmpty(steps.items[index]) && steps.modal) {
       const items = steps.items;
@@ -148,8 +158,25 @@ const Deposit = ({
     }
   }, [steps, wallet.action]);
 
+  const { zap, eligibleTokens } = useMemo(() => {
+    const zap = item.zap;
+    return {
+      zap,
+      eligibleTokens: [
+        {
+          name: item.name,
+          symbol: item.token,
+          address: item.tokenAddress,
+          decimals: item.tokenDecimals,
+          logoURI: item.logo,
+        },
+        ...(zap ? zap.tokens : []),
+      ],
+    };
+  }, [item.tokenAddress]);
+
   return (
-    <React.Fragment>
+    <>
       <Box p={3}>
         <Typography className={classes.balanceText}>{t('Vault-Wallet')}</Typography>
         <Box className={classes.balanceContainer} display="flex" alignItems="center">
@@ -174,6 +201,18 @@ const Deposit = ({
               <Button endIcon={<OpenInNewRoundedIcon />}>{t('Transact-BuyTkn')}</Button>
             </Link>
           </Box>
+        </Box>
+        <Box>
+          <h1>Zap</h1>
+          <FormControl>
+            <Select variant="standard" className={classes.zapSelect} value={0} onChange={() => {}}>
+              {eligibleTokens.map((token, i) => (
+                <MenuItem key={i} value={i}>
+                  {token.symbol}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
         <Box className={classes.inputContainer}>
           <Paper component="form" className={classes.root}>
@@ -228,8 +267,8 @@ const Deposit = ({
         onClick={() => {}}
       />
       <Steps item={item} steps={steps} handleClose={handleClose} />
-    </React.Fragment>
-  ); //return
-}; //const Deposit
+    </>
+  );
+};
 
 export default Deposit;

@@ -33,11 +33,11 @@ const Steps = ({ item, steps, handleClose }) => {
     >
       <Fade in={steps.modal}>
         {steps.finished ? (
-          <React.Fragment>
+          <>
             <Box>
               <Box p={8} className={classes.finishedCard}>
                 {steps.items[steps.currentStep].step === 'deposit' ? (
-                  <React.Fragment>
+                  <>
                     <Typography variant={'h2'}>
                       {byDecimals(
                         new BigNumber(wallet.action.data.amount),
@@ -46,9 +46,9 @@ const Steps = ({ item, steps, handleClose }) => {
                       {item.token}
                     </Typography>
                     <Typography variant={'h2'}>{t('Deposit-Done')}</Typography>
-                  </React.Fragment>
+                  </>
                 ) : (
-                  <React.Fragment>
+                  <>
                     <Typography variant={'h2'}>
                       {byDecimals(
                         new BigNumber(wallet.action.data.amount).multipliedBy(
@@ -59,7 +59,7 @@ const Steps = ({ item, steps, handleClose }) => {
                       {item.token}
                     </Typography>
                     <Typography variant={'h2'}>{t('Withdraw-Done')}</Typography>
-                  </React.Fragment>
+                  </>
                 )}
                 <Typography>{t('Transactn-EnRoute')}</Typography>
                 <Box mt={1} textAlign={'center'}>
@@ -93,7 +93,7 @@ const Steps = ({ item, steps, handleClose }) => {
                 </Button>
               </Box>
             </Box>
-          </React.Fragment>
+          </>
         ) : (
           <Box className={classes.paper}>
             <Typography id="transition-modal-title" variant={'h2'}>
