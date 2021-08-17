@@ -1,8 +1,12 @@
+import zaps from 'config/zaps.json';
+import { addressBook } from 'blockchain-addressbook';
+
 export const getNetworkTokens = () => {};
 
 export const getNetworkBurnTokens = network => {
   switch (network) {
     case 'bsc':
+      const bscAddressBook = addressBook['bsc'];
       return {
         [bscAddressBook.tokens.GARUDA.symbol]: bscAddressBook.tokens.GARUDA,
         [bscAddressBook.tokens.SDUMP.symbol]: bscAddressBook.tokens.SDUMP,
@@ -14,6 +18,7 @@ export const getNetworkBurnTokens = network => {
     case 'avax':
       return {};
     case 'polygon':
+      const polygonAddressBook = addressBook['polygon'];
       return {
         [polygonAddressBook.tokens.xYELD.symbol]: polygonAddressBook.tokens.xYELD,
         [polygonAddressBook.tokens.PEAR.symbol]: polygonAddressBook.tokens.PEAR,
@@ -26,20 +31,7 @@ export const getNetworkBurnTokens = network => {
 };
 
 export const getNetworkZaps = network => {
-  switch (network) {
-    case 'bsc':
-      return bscZaps;
-    case 'heco':
-      return hecoZaps;
-    case 'avax':
-      return avalancheZaps;
-    case 'polygon':
-      return polygonZaps;
-    case 'fantom':
-      return fantomZaps;
-    default:
-      return [];
-  }
+  return zaps.filter(zap => zap.network === network);
 };
 
 export const getNetworkCoin = () => {};
