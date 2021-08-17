@@ -7,15 +7,13 @@ import {
   getNetworkCoin,
 } from 'helpers/getNetworkData';
 
-const availableTokens = getNetworkTokens();
-
-const nativeCoin = getNetworkCoin();
-
 export const getEligibleZap = pool => {
   if (pool.assets.length !== 2) return undefined;
 
   const availableZaps = getNetworkZaps(pool.network);
   const burnTokens = getNetworkBurnTokens(pool.network);
+  const availableTokens = getNetworkTokens(pool.network);
+  const nativeCoin = getNetworkCoin(pool.network);
 
   const eligibleNativeCoin = [];
   const tokenSymbols = pool.assets.map(symbol => {
