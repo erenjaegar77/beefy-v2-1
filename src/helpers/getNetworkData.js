@@ -1,12 +1,36 @@
 import zaps from 'config/zaps.json';
 import { addressBook } from 'blockchain-addressbook';
 
-export const getNetworkTokens = () => {};
+const {
+  polygon: polygonAddressBook,
+  heco: hecoAddressBook,
+  avax: avaxAddressBook,
+  bsc: bscAddressBook,
+  fantom: fantomAddressBook,
+} = addressBook;
+
+export const getNetworkTokens = network => {
+  switch (network) {
+    case 'bsc':
+      return bscAddressBook.tokens;
+    case 'heco':
+      return hecoAddressBook.tokens;
+    case 'avax':
+      return avaxAddressBook.tokens;
+    case 'polygon':
+      return polygonAddressBook.tokens;
+    case 'fantom':
+      return fantomAddressBook.tokens;
+    default:
+      throw new Error(
+        `Create address book for this chainId first. Check out https://github.com/beefyfinance/address-book`
+      );
+  }
+};
 
 export const getNetworkBurnTokens = network => {
   switch (network) {
     case 'bsc':
-      const bscAddressBook = addressBook['bsc'];
       return {
         [bscAddressBook.tokens.GARUDA.symbol]: bscAddressBook.tokens.GARUDA,
         [bscAddressBook.tokens.SDUMP.symbol]: bscAddressBook.tokens.SDUMP,
@@ -18,7 +42,6 @@ export const getNetworkBurnTokens = network => {
     case 'avax':
       return {};
     case 'polygon':
-      const polygonAddressBook = addressBook['polygon'];
       return {
         [polygonAddressBook.tokens.xYELD.symbol]: polygonAddressBook.tokens.xYELD,
         [polygonAddressBook.tokens.PEAR.symbol]: polygonAddressBook.tokens.PEAR,
