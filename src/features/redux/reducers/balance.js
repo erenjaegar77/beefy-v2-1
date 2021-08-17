@@ -4,25 +4,34 @@ import {
   WALLET_DISCONNECT,
 } from '../constants';
 import { config } from 'config/config';
+import { getEligibleZap } from 'features/zap/zapUniswapV2';
 
 const initialTokens = () => {
   const tokens = [];
   for (let net in config) {
     const data = require('config/vault/' + net + '.js');
     for (const key in data.pools) {
-      tokens[data.pools[key].token] = {
+      const pool = data.pools[key];
+      tokens[pool.token] = {
         balance: 0,
-        allowance: { [data.pools[key].earnContractAddress]: 0 },
+        allowance: { [pool.earnContractAddress]: 0 },
       };
 
-      if (data.pools[key].tokenAddress) {
-        tokens[data.pools[key].token]['address'] = data.pools[key].tokenAddress;
+      if (pool.tokenAddress) {
+        tokens[pool.token]['address'] = pool.tokenAddress;
       }
 
-      tokens[data.pools[key].earnedToken] = {
+      tokens[pool.earnedToken] = {
         balance: 0,
-        address: data.pools[key].earnedTokenAddress,
+        address: pool.earnedTokenAddress,
+        allowance: {},
       };
+
+      const zap = getEligibleZap(pool);
+      if (zap) {
+        tokens[pool.token].allowance[zap.zapAddress] = pool.tokenAddress ? 0 : Infinity;
+        tokens[pool.earnedToken].allowance[zap.zapAddress] = 0;
+      }
     }
   }
 

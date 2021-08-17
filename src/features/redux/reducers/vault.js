@@ -66,10 +66,9 @@ const initialPools = () => {
 
       pool = initializeTags(pool, net);
 
-      // Initialize zaps
       const zap = getEligibleZap(pool);
       if (zap) {
-        console.log('Got zap', pool.id, zap.zapAddress);
+        pool['zap'] = zap;
       }
 
       pools[pool.id] = pool;

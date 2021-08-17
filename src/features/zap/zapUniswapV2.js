@@ -45,6 +45,8 @@ export const getEligibleZap = pool => {
       if (!tokenB) {
         missingTokenSymbols[tokenBSymbol] = '';
       }
+
+      return null;
     }
   });
 

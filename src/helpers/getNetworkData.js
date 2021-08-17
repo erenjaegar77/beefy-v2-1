@@ -1,7 +1,7 @@
 import { addressBook } from 'blockchain-addressbook';
 
 import zaps from 'config/zaps.json';
-import config from 'config/config';
+import { config } from 'config/config';
 
 const {
   polygon: polygonAddressBook,
@@ -60,5 +60,5 @@ export const getNetworkZaps = network => {
 };
 
 export const getNetworkCoin = network => {
-  return config[network].nativeCurrency;
+  return config[network].walletSettings.nativeCurrency;
 };
