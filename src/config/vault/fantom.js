@@ -473,5 +473,6 @@ export const pools = [
     callFee: 0.5,
     addLiquidityUrl: 'https://spookyswap.finance/add',
     buyTokenUrl: 'https://spookyswap.finance/swap',
+    network: 'fantom',
   },
 ];

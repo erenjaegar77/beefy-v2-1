@@ -2,6 +2,7 @@ import { HOME_FETCH_POOLS_BEGIN, HOME_FETCH_POOLS_DONE } from '../constants';
 import { config } from 'config/config';
 import { getStablesForNetwork, isEmpty, bluechipTokens } from 'helpers/utils';
 import safetyScore from 'helpers/safetyScore';
+import { getEligibleZap } from 'features/zap/zapUniswapV2';
 
 let initPlatforms = {};
 let pools = [];
@@ -64,6 +65,12 @@ const initialPools = () => {
       }
 
       pool = initializeTags(pool, net);
+
+      // Initialize zaps
+      const zap = getEligibleZap(pool);
+      if (zap) {
+        console.log('Got zap', pool.id, zap.zapAddress);
+      }
 
       pools[pool.id] = pool;
     }
