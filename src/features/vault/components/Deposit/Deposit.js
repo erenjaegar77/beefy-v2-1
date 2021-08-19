@@ -44,7 +44,7 @@ const Deposit = ({
   }));
   const t = useTranslation().t;
 
-  const [state, setState] = useState({ balance: 0, allowance: 0 });
+  const [state, setState] = useState({ balance: 0, allowance: 0, tokenIndex: 0 });
   const [steps, setSteps] = useState({
     modal: false,
     currentStep: -1,
@@ -52,6 +52,7 @@ const Deposit = ({
     finished: false,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [tokenIndex, setTokenIndex] = useState(0);
 
   const handleInput = val => {
     const value =
@@ -111,8 +112,8 @@ const Deposit = ({
       });
 
       setSteps({ modal: true, currentStep: 0, items: steps, finished: false });
-    } //if (wallet.address)
-  }; //const handleDeposit
+    }
+  };
 
   const handleClose = () => {
     updateItemData();
@@ -130,7 +131,7 @@ const Deposit = ({
       ).toFixed(8);
       approved = balance.tokens[item.token].allowance[item.earnContractAddress];
     }
-    setState({ balance: amount, allowance: approved });
+    setState({ balance: amount, allowance: approved, tokenIndex: 0 });
   }, [wallet.address, item, balance]);
 
   useEffect(() => {
@@ -175,6 +176,10 @@ const Deposit = ({
     };
   }, [item.tokenAddress]);
 
+  const handleTokenChange = e => {
+    setState(e.target.value);
+  };
+
   return (
     <>
       <Box p={3}>
@@ -202,18 +207,25 @@ const Deposit = ({
             </Link>
           </Box>
         </Box>
-        <Box>
-          <h1>Zap</h1>
-          <FormControl>
-            <Select variant="standard" className={classes.zapSelect} value={0} onChange={() => {}}>
-              {eligibleTokens.map((token, i) => (
-                <MenuItem key={i} value={i}>
-                  {token.symbol}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+        {zap && (
+          <Box>
+            <h1>Zap</h1>
+            <FormControl>
+              <Select
+                variant="standard"
+                className={classes.zapSelect}
+                value={tokenIndex}
+                onChange={handleTokenChange}
+              >
+                {eligibleTokens.map((token, i) => (
+                  <MenuItem key={i} value={i}>
+                    {token.symbol}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
         <Box className={classes.inputContainer}>
           <Paper component="form" className={classes.root}>
             <Box className={classes.inputLogo}>

@@ -1,24 +1,25 @@
+import React, { useState, useEffect } from 'react';
 import { Container, makeStyles, Grid, Typography, Box, Button, Divider } from '@material-ui/core';
 import { ArrowLeft } from '@material-ui/icons';
-import * as React from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addressBook } from 'blockchain-addressbook';
+
 import reduxActions from '../redux/actions';
 import { calcDaily, formatApy, formatUsd } from 'helpers/format';
 import { isEmpty } from 'helpers/utils';
 import Loader from 'components/loader';
 import DisplayTags from 'components/vaultTags';
 import AssetsImage from 'components/AssetsImage';
-import styles from './styles';
 import Deposit from 'features/vault/components/Deposit';
 import Withdraw from 'features/vault/components/Withdraw';
 import TokenCard from 'features/vault/components/TokenCard';
 import StrategyCard from 'features/vault/components/StrategyCard';
 import SafetyCard from 'features/vault/components/SafetyCard';
 import Graph from 'features/vault/components/Graph';
+import styles from './styles';
 
 const useStyles = makeStyles(styles);
 
@@ -34,10 +35,9 @@ const Vault = () => {
     prices: state.pricesReducer,
   }));
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [item, setVaultData] = React.useState(null);
-  const [dw, setDw] = React.useState('deposit');
-  const [formData, setFormData] = React.useState({
+  const [item, setVaultData] = useState(null);
+  const [dw, setDw] = useState('deposit');
+  const [formData, setFormData] = useState({
     deposit: { amount: '', max: false },
     withdraw: { amount: '', max: false },
   });
@@ -59,7 +59,7 @@ const Vault = () => {
     setFormData({ deposit: { amount: '', max: false }, withdraw: { amount: '', max: false } });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isEmpty(vault.pools) && vault.pools[id]) {
       setVaultData(vault.pools[id]);
     } else {
@@ -67,25 +67,26 @@ const Vault = () => {
     }
   }, [vault.pools, id, history]);
 
-  React.useEffect(() => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
     if (item) {
       setIsLoading(false);
     }
   }, [item]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (item && prices.lastUpdated > 0) {
       dispatch(reduxActions.vault.fetchPools(item));
     }
   }, [dispatch, item, prices.lastUpdated]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (item && wallet.address) {
       dispatch(reduxActions.balance.fetchBalances(item));
     }
   }, [dispatch, item, wallet.address]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (item) {
       setInterval(() => {
         dispatch(reduxActions.vault.fetchPools(item));
@@ -211,8 +212,8 @@ const Vault = () => {
         </Grid>
       )}
     </Container>
-  ); //return
-}; //const Vault
+  );
+};
 
 const renderTokens = item => {
   return item.assets.map(asset => {
