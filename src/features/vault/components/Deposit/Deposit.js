@@ -11,7 +11,6 @@ import {
   Select,
 } from '@material-ui/core';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles';
@@ -198,13 +197,14 @@ const Deposit = ({
             )}
           </Box>
           <Box>
-            <Link
-              to={{ pathname: item.buyTokenUrl }}
+            <a
+              href={item.buyTokenUrl}
               target="_blank"
+              rel="noreferrer"
               className={classes.btnSecondary}
             >
               <Button endIcon={<OpenInNewRoundedIcon />}>{t('Transact-BuyTkn')}</Button>
-            </Link>
+            </a>
           </Box>
         </Box>
         {zap && (

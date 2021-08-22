@@ -1,5 +1,10 @@
-import { config } from '../../../config/config';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Web3Modal, { connectors } from 'web3modal';
+import Web3 from 'web3';
+
+import { config } from 'config/config';
 import {
+  UNSUPPORTED_NETWORK,
   WALLET_ACTION,
   WALLET_ACTION_RESET,
   WALLET_CONNECT_BEGIN,
@@ -7,11 +12,8 @@ import {
   WALLET_CREATE_MODAL,
   WALLET_DISCONNECT,
 } from '../constants';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal, { connectors } from 'web3modal';
-const Web3 = require('web3');
-const erc20Abi = require('../../../config/abi/erc20.json');
-const vaultAbi = require('../../../config/abi/vault.json');
+import erc20Abi from 'config/abi/erc20.json';
+import vaultAbi from 'config/abi/vault.json';
 
 const getClientsForNetwork = async net => {
   return config[net].rpc;
@@ -92,8 +94,7 @@ const connect = () => {
           const net = getNetworkAbbr(networkId);
           dispatch(setNetwork(net));
         } else {
-          await close();
-          console.log('show nice modal: Wallet network not supported: ' + networkId);
+          dispatch({ type: UNSUPPORTED_NETWORK, payload: { address: null } });
         }
       });
     };
@@ -128,22 +129,20 @@ const connect = () => {
         });
       } else {
         await close();
-        if (checkNetworkSupport(networkId) && provider) {
+        if (provider) {
           await provider.request({
             method: 'wallet_addEthereumChain',
             params: [config[state.walletReducer.network].walletSettings],
           });
           dispatch(connect());
         } else {
-          // todo: show error to user for unsupported network
-          alert('show nice modal: Wallet network not supported: ' + networkId);
+          const accounts = await web3.eth.getAccounts();
+          dispatch({ type: UNSUPPORTED_NETWORK, payload: { address: accounts[0] } });
           throw Error('Network not supported, check chainId.');
         }
       }
     } catch (err) {
       console.log('connect error', err);
-      // todo: show modal error to user
-      dispatch({ type: WALLET_CONNECT_DONE, payload: { address: null } });
     }
   };
 };
@@ -471,7 +470,7 @@ const generateProviderOptions = (wallet, clients) => {
         display: {
           name: 'Binance',
           description: 'Binance Chain Wallet',
-          logo: require('../../../images/wallets/binance-wallet.png').default,
+          logo: require('images/wallets/binance-wallet.png').default,
         },
         package: 'binance',
         connector: async (ProviderPackage, options) => {
@@ -484,7 +483,7 @@ const generateProviderOptions = (wallet, clients) => {
         display: {
           name: 'Math',
           description: 'Math Wallet',
-          logo: require('../../../images/wallets/math-wallet.svg').default,
+          logo: require('images/wallets/math-wallet.svg').default,
         },
         package: 'math',
         connector: connectors.injected,
@@ -493,7 +492,7 @@ const generateProviderOptions = (wallet, clients) => {
         display: {
           name: 'Trust',
           description: 'Trust Wallet',
-          logo: require('../../../images/wallets/trust-wallet.svg').default,
+          logo: require('images/wallets/trust-wallet.svg').default,
         },
         package: 'twt',
         connector: connectors.injected,
@@ -502,7 +501,7 @@ const generateProviderOptions = (wallet, clients) => {
         display: {
           name: 'SafePal',
           description: 'SafePal App',
-          logo: require('../../../images/wallets/safepal-wallet.svg').default,
+          logo: require('images/wallets/safepal-wallet.svg').default,
         },
         package: 'safepal',
         connector: connectors.injected,
