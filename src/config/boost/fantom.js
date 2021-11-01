@@ -1,7 +1,7 @@
 export const pools = [
   {
-    id: 'moo_curve-ftm-geist-pearzap',
-    name: 'PearZap',
+    id: 'g3crv-pearzap',
+    poolId: 'curve-ftm-geist',
     earnedToken: 'PEAR',
     earnedTokenDecimals: 18,
     earnedTokenAddress: '0x7C10108d4B7f4bd659ee57A53b30dF928244b354',
@@ -13,7 +13,7 @@ export const pools = [
     isMooStaked: true,
     partners: [
       {
-        name: 'PearZap Finance',
+        name: 'PearZap',
         logo: 'stake/pearzap/logo.png',
         background: 'stake/pearzap/bg.png',
         text: "PearZap Finance is a yield farming project on the Polygon Chain, born out of the idea of bringing consistency in high APR's and security to our investors through our $Pear native token. Join the PearZap family and be part of a project that prides itself in quality partnerships and delivering on the promises we make, no matter how juicy they may be. 🍐⚡️",
