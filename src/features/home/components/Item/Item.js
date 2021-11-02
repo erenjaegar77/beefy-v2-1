@@ -14,14 +14,15 @@ import { byDecimals, formatUsd } from 'helpers/format';
 import styles from './styles';
 import clsx from 'clsx';
 import ApyStats from '../ApyStats/ApyStats';
+import useIsBoosted from '../../hooks/useIsBoosted';
 
 const useStyles = makeStyles(styles);
 
 function Item({ vault }) {
   const item = vault;
 
-  // eslint-disable-next-line
-  const [isBoosted, setIsBoosted] = React.useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const { isBoosted, data: boostedData } = useIsBoosted(item);
   // eslint-disable-next-line
   const [isGovVault, setIsGovVault] = React.useState(false);
 
@@ -104,6 +105,7 @@ function Item({ vault }) {
       })}
     >
       <Grid container className={classes.dataGrid}>
+        {console.log(boostedData)}
         {/*Title*/}
         <div className={classes.titleContainer}>
           <Grid container>
@@ -160,23 +162,38 @@ function Item({ vault }) {
         </div>
         <div className={classes.statsContainer}>
           <Grid container>
-            {/*DEPOSIT*/}
-            <div className={classes.centerSpace}>
-              <div className={classes.stat}>
-                <Typography className={classes.label}>{t('DEPOSITED')}</Typography>
+            {/*BOOSTED BY*/}
+            {isBoosted && priceInDolar.balance === 0 && (
+              <div className={classes.centerSpace}>
+                <div className={classes.stat}>
+                  <Typography className={classes.label}>{t('STAKED-IN')}</Typography>
 
-                <ValueText value={tokensEarned} />
-
-                {priceInDolar.balance > 0 && (
+                  <ValueText value={boostedData.partners[0].name} />
                   <Typography className={classes.label}>
-                    <ValuePrice value={formatUsd(price)} />
+                    <ValuePrice value={t('BOOST')} />
                   </Typography>
-                )}
-                {isBoosted && priceInDolar.balance === 0 ? (
-                  <div className={classes.boostSpacer} />
-                ) : null}
+                </div>
               </div>
-            </div>
+            )}
+            {/*DEPOSIT*/}
+            {!isBoosted && (
+              <div className={classes.centerSpace}>
+                <div className={classes.stat}>
+                  <Typography className={classes.label}>{t('DEPOSITED')}</Typography>
+
+                  <ValueText value={tokensEarned} />
+
+                  {priceInDolar.balance > 0 && (
+                    <Typography className={classes.label}>
+                      <ValuePrice value={formatUsd(price)} />
+                    </Typography>
+                  )}
+                  {isBoosted && priceInDolar.balance === 0 ? (
+                    <div className={classes.boostSpacer} />
+                  ) : null}
+                </div>
+              </div>
+            )}
             {/*TVL*/}
             <div className={classes.centerSpace}>
               <div className={classes.stat}>
@@ -189,9 +206,10 @@ function Item({ vault }) {
             </div>
             {/*APY STATS*/}
             <ApyStats
-              launchpoolApr={isBoosted}
+              isBoosted={isBoosted}
+              launchpoolApr={boostedData}
               apy={item.apy}
-              spacer={isBoosted || priceInDolar.balance > 0}
+              spacer={false}
             />
             {/*Rewards/Saftey Score*/}
             {isGovVault ? (

@@ -36,7 +36,7 @@ const Boost = () => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  let { id } = useParams();
+  let { id, network } = useParams();
   const { vault, wallet, balance } = useSelector(state => ({
     vault: state.vaultReducer,
     wallet: state.walletReducer,
@@ -68,8 +68,8 @@ const Boost = () => {
   const handleClaimRewards = () => {
     const steps = [];
     if (wallet.address) {
-      if (item.network !== wallet.network) {
-        dispatch(reduxActions.wallet.setNetwork(item.network));
+      if (network !== wallet.network) {
+        dispatch(reduxActions.wallet.setNetwork(network));
         return false;
       }
 
@@ -79,7 +79,7 @@ const Boost = () => {
         action: () =>
           dispatch(
             reduxActions.wallet.claim(
-              item.network,
+              network,
               item.earnContractAddress,
               convertAmountToRawNumber(state.rewards, item.earnedTokenDecimals)
             )
@@ -141,11 +141,11 @@ const Boost = () => {
     if (item) {
       setInterval(() => {
         dispatch(reduxActions.vault.fetchBoosts(item));
-        dispatch(reduxActions.balance.fetchBoostBalances(item));
-        dispatch(reduxActions.balance.fetchBoostRewards(item));
+        dispatch(reduxActions.balance.fetchBoostBalances(item, network));
+        dispatch(reduxActions.balance.fetchBoostRewards(item, network));
       }, 60000);
     }
-  }, [item, dispatch]);
+  }, [item, dispatch, network]);
 
   React.useEffect(() => {
     let amount = 0;
@@ -154,16 +154,16 @@ const Boost = () => {
     let poolPercentage = 0;
     let rewards = 0;
 
-    if (wallet.address && !isEmpty(balance.tokens[item.network][item.token])) {
+    if (wallet.address && !isEmpty(balance.tokens[network][item])) {
       amount = byDecimals(
-        new BigNumber(balance.tokens[item.network][item.token].balance),
+        new BigNumber(balance.tokens[network][item.token].balance),
         item.tokenDecimals
       ).toFixed(8);
       deposited = byDecimals(
-        new BigNumber(balance.tokens[item.network][item.token + 'Boost'].balance),
+        new BigNumber(balance.tokens[network][item.token + 'Boost'].balance),
         item.tokenDecimals
       ).toFixed(8);
-      approved = balance.tokens[item.network][item.token].allowance[item.earnContractAddress];
+      approved = balance.tokens[network][item.token].allowance[item.earnContractAddress];
 
       if (!isEmpty(balance.rewards[item.earnedToken])) {
         rewards = byDecimals(
@@ -188,7 +188,7 @@ const Boost = () => {
       poolPercentage: poolPercentage,
       rewards: rewards,
     });
-  }, [wallet.address, item, balance]);
+  }, [wallet.address, item, balance, network]);
 
   React.useEffect(() => {
     const index = steps.currentStep;
@@ -213,7 +213,6 @@ const Boost = () => {
 
   return (
     <Container className={classes.vaultContainer} maxWidth="lg">
-      {console.log(vault)}
       {isLoading ? (
         <Loader message="Getting boost data..." />
       ) : (
@@ -222,7 +221,7 @@ const Boost = () => {
             <Button
               className={classes.btnGoBack}
               onClick={() => {
-                history.push('/' + item.network + '/vault/' + item.poolId);
+                history.push('/' + network + '/vault/' + item.poolId);
               }}
             >
               <ArrowLeft /> Back to Vault

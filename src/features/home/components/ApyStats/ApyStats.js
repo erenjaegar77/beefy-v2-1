@@ -39,7 +39,7 @@ const BreakdownTooltip = memo(({ rows }) => {
   );
 });
 
-const YearlyBreakdownTooltip = memo(({ rates }) => {
+const YearlyBreakdownTooltip = memo(({ boosted, rates }) => {
   const rows = [];
   const { t } = useTranslation();
 
@@ -69,14 +69,14 @@ const YearlyBreakdownTooltip = memo(({ rates }) => {
 
   rows.push({
     label: t('APY'),
-    value: rates.totalApy,
+    value: boosted ? rates.boostedTotalApy : rates.totalApy,
     last: true,
   });
 
   return <BreakdownTooltip rows={rows} />;
 });
 
-const DailyBreakdownTooltip = memo(({ rates }) => {
+const DailyBreakdownTooltip = memo(({ boosted, rates }) => {
   const rows = [];
   const { t } = useTranslation();
 
@@ -106,7 +106,7 @@ const DailyBreakdownTooltip = memo(({ rates }) => {
 
   rows.push({
     label: t('Vault-Breakdown-DailyAPY'),
-    value: rates.totalDaily,
+    value: boosted ? rates.boostedTotalDaily : rates.totalDaily,
     last: true,
   });
 
@@ -142,9 +142,9 @@ const ApyStats = ({
   itemInnerClasses,
   spacer,
   isGovVault,
+  isBoosted,
 }) => {
   const { t } = useTranslation();
-  const isBoosted = !!launchpoolApr;
   const values = {};
 
   values.totalApy = apy.totalApy;
@@ -166,8 +166,8 @@ const ApyStats = ({
   }
 
   if (isBoosted) {
-    values.boostApr = launchpoolApr;
-    values.boostDaily = launchpoolApr / 365;
+    values.boostApr = launchpoolApr.apr;
+    values.boostDaily = launchpoolApr.apr / 365;
     values.boostedTotalApy = values.boostApr ? values.totalApy + values.boostApr : 0;
     values.boostedTotalDaily = values.boostDaily ? values.totalDaily + values.boostDaily : 0;
   }
@@ -191,7 +191,7 @@ const ApyStats = ({
         className={`tooltip-toggle ${itemInnerClasses}`}
         spacer={spacer}
       >
-        <YearlyBreakdownTooltip rates={formatted} />
+        <YearlyBreakdownTooltip boosted={isBoosted} rates={formatted} />
       </LabeledStatWithTooltip>
 
       <LabeledStatWithTooltip
@@ -202,7 +202,7 @@ const ApyStats = ({
         className={`tooltip-toggle ${itemInnerClasses}`}
         spacer={spacer}
       >
-        <DailyBreakdownTooltip rates={formatted} />
+        <DailyBreakdownTooltip boosted={isBoosted} rates={formatted} />
       </LabeledStatWithTooltip>
     </>
   );
