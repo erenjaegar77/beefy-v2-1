@@ -39,9 +39,18 @@ const BreakdownTooltip = memo(({ rows }) => {
   );
 });
 
-const YearlyBreakdownTooltip = memo(({ rates }) => {
+const YearlyBreakdownTooltip = memo(({ rates, isGovVault }) => {
   const rows = [];
   const { t } = useTranslation();
+
+  if (isGovVault) {
+    rows.push({
+      label: t('Pool-Apr'),
+      value: rates.vaultApr,
+      last: true,
+    });
+    return <BreakdownTooltip rows={rows} />;
+  }
 
   if ('vaultApr' in rates) {
     rows.push({
@@ -76,9 +85,18 @@ const YearlyBreakdownTooltip = memo(({ rates }) => {
   return <BreakdownTooltip rows={rows} />;
 });
 
-const DailyBreakdownTooltip = memo(({ rates }) => {
+const DailyBreakdownTooltip = memo(({ rates, isGovVault }) => {
   const rows = [];
   const { t } = useTranslation();
+
+  if (isGovVault) {
+    rows.push({
+      label: t('Pool-AprDaily'),
+      value: rates.vaultDaily,
+      last: true,
+    });
+    return <BreakdownTooltip rows={rows} />;
+  }
 
   if ('vaultDaily' in rates) {
     rows.push({
@@ -148,6 +166,10 @@ const ApyStats = ({
   const values = {};
 
   values.totalApy = apy.totalApy;
+  if (isGovVault) {
+    console.log('ASDASDASD');
+    console.log(apy);
+  }
 
   if ('vaultApr' in apy && apy.vaultApr) {
     values.vaultApr = apy.vaultApr;
@@ -165,11 +187,20 @@ const ApyStats = ({
     values.totalDaily = yearlyToDaily(values.totalApy);
   }
 
+  if (isGovVault) {
+    values.totalApy = apy.vaultApr;
+    values.totalDaily = apy.vaultApr / 365;
+  }
+
   if (isBoosted) {
     values.boostApr = launchpoolApr;
     values.boostDaily = launchpoolApr / 365;
     values.boostedTotalApy = values.boostApr ? values.totalApy + values.boostApr : 0;
     values.boostedTotalDaily = values.boostDaily ? values.totalDaily + values.boostDaily : 0;
+  }
+
+  if (isGovVault) {
+    console.log(values);
   }
 
   const formatted = Object.fromEntries(
@@ -181,6 +212,9 @@ const ApyStats = ({
     })
   );
 
+  if (isGovVault) {
+    console.log(formatted);
+  }
   return (
     <>
       <LabeledStatWithTooltip
@@ -191,7 +225,7 @@ const ApyStats = ({
         className={`tooltip-toggle ${itemInnerClasses}`}
         spacer={spacer}
       >
-        <YearlyBreakdownTooltip rates={formatted} />
+        <YearlyBreakdownTooltip rates={formatted} isGovVault={isGovVault} />
       </LabeledStatWithTooltip>
 
       <LabeledStatWithTooltip
@@ -202,7 +236,7 @@ const ApyStats = ({
         className={`tooltip-toggle ${itemInnerClasses}`}
         spacer={spacer}
       >
-        <DailyBreakdownTooltip rates={formatted} />
+        <DailyBreakdownTooltip rates={formatted} isGovVault={isGovVault} />
       </LabeledStatWithTooltip>
     </>
   );
