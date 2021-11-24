@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState, useRef } from 'react';
 import AnimateHeight from 'react-animate-height';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { useEventListener } from 'ahooks';
 import { styles } from './styles';
 import { LabeledDropdown } from '../../../../components/LabeledDropdown';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -30,9 +31,17 @@ const _Filter: React.FC<FilterProps> = ({
   filteredCount,
   allCount,
 }) => {
+  const searchInput = useRef(null);
   const classes = useStyles();
   const { t } = useTranslation();
   const [filterOpen, setFilterOpen] = useState(false);
+
+  useEventListener('keyup', (ev: KeyboardEvent) => {
+    if (ev.key === '/') {
+      console.log(ev);
+      return searchInput.current.focus();
+    }
+  });
 
   const handleCheckbox = useCallback(
     event => {
@@ -96,6 +105,7 @@ const _Filter: React.FC<FilterProps> = ({
         {/*Search*/}
         <Box className={classes.searchContainer}>
           <TextField
+            inputRef={searchInput}
             className={classes.searchInput}
             size="small"
             variant="outlined"
