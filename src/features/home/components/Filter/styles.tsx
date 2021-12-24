@@ -90,6 +90,12 @@ export const styles = theme => ({
       border: 'none',
     },
   },
+  textBtnFilter: {
+    color: theme.palette.text.secondary,
+    fontSize: '15px',
+    fontWeight: 700,
+    marginLeft: 4,
+  },
   btnResetContainer: {
     [theme.breakpoints.down('sm')]: {
       width: '100%',
@@ -177,7 +183,6 @@ export const styles = theme => ({
       color: theme.palette.text.primary,
     },
   },
-
   selectors: {
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -328,7 +333,6 @@ export const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: theme.spacing(1),
   },
   label: {
     color: theme.palette.text.disabled,

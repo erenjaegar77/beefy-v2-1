@@ -253,7 +253,9 @@ const _Filter: React.FC<FilterProps> = ({
               className={classes.filterIcon}
             />
           )}
-          {t('Filter-Btn')}
+          <Typography className={classes.textBtnFilter} variant="body1">
+            {t('Filter-Btn')}
+          </Typography>
         </Button>
       </Box>
       <Popover
