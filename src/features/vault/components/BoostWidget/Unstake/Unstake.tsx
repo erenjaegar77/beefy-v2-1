@@ -103,7 +103,7 @@ const UnstakeForm = ({
   const { t } = useTranslation();
   const store = useStore();
   const formState = useSelector((state: BeefyState) => state.ui.boostModal);
-
+  console.log('a');
   const [startStepper, isStepping, Stepper] = useStepper(vault.id);
 
   const handleInput = (amountStr: string) => {
