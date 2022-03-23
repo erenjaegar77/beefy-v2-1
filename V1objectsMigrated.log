@@ -1,35 +1,63 @@
 [
   {
-    "id": "polygon vault: jarvis-2sgd",
-    "type": "Added"
+    "id": "polygon vault: quick-matic-mana-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "polygon vault: jarvis-2jpy",
-    "type": "Added"
+    "id": "polygon vault: quick-dai-usdt-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "polygon vault: jarvis-2jpy-paused",
-    "type": "REMOVED"
+    "id": "polygon vault: cometh-bifi-eth-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "avax vault: joe-deg-wavax",
-    "type": "Added"
+    "id": "polygon vault: quick-link-eth-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "metis vault: tethys-rftm-metis",
-    "type": "Added"
+    "id": "avax vault: png-bribe-wavax-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "metis vault: tethys-metis-ravax",
-    "type": "Added"
+    "id": "avax vault: joe-link.e-usdc.e-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "metis vault: tethys-dai-metis",
-    "type": "Added"
+    "id": "avax vault: joe-wavax-frax-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
-    "id": "aurora vault: tri-ausdo-usdt",
-    "type": "Added"
+    "id": "avax vault: joe-wavax-cly-eol",
+    "type": "synced",
+    "EOLd": true
+  },
+  {
+    "id": "avax vault: joe-klo-wavax-eol",
+    "type": "synced",
+    "EOLd": true
+  },
+  {
+    "id": "avax vault: joe-wavax-spell-eol",
+    "type": "synced",
+    "EOLd": true
+  },
+  {
+    "id": "moonriver vault: solarbeam-busd-usdc-eol",
+    "type": "synced",
+    "EOLd": true
+  },
+  {
+    "id": "moonriver vault: solarbeam-usdt-usdc-eol",
+    "type": "synced",
+    "EOLd": true
   },
   {
     "id": "fantom boost: moo_curve-ftm-geist-ripae",
