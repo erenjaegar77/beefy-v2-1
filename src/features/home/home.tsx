@@ -213,6 +213,7 @@ export const Home = () => {
         <Filter />
         <VaultsList />
       </Container>
+      <></>
     </React.Fragment>
   );
 };
